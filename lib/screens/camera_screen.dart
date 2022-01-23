@@ -28,8 +28,12 @@ class _UploadState extends State<Upload>
   File? file;
   bool isUploading = false;
   String postId = const Uuid().v4();
-  // Position position;
 
+  String? resultText = '';
+  // Position position;
+var date='${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}';
+
+var time='${DateTime.now().hour}${DateTime.now().minute}';
   selectImage(parentContext) {
     return showDialog(
       context: parentContext,
@@ -143,6 +147,9 @@ class _UploadState extends State<Upload>
       final Map<String, dynamic> responseData = json.decode(response.body);
 
       print(responseData);
+      setState(() {
+        resultText = responseData['image'];
+      });
     } catch (e) {
       print(e);
       print("Error Has Occured");
@@ -246,7 +253,12 @@ class _UploadState extends State<Upload>
           const Padding(
             padding: EdgeInsets.only(top: 10.0),
           ),
-
+          Text(DateTime.now().toLocal().),
+          Text(
+            resultText!,
+            style: TextStyle(fontSize: 28),
+            textAlign: TextAlign.center,
+          ),
           const Divider(),
           // Container(
           //   width: 200.0,
