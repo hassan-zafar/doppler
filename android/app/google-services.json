@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "889969167081",
+    "project_id": "doppler-53f10",
+    "storage_bucket": "doppler-53f10.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:889969167081:android:9cbdbca64d9580f0bbbe78",
+        "android_client_info": {
+          "package_name": "com.example.dopplerv1"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "889969167081-kl4g6kns3u7j0vg1tvakufgc7gupj9uk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.dopplerv1",
+            "certificate_hash": "07124d9ca33f2320d809b1801bd037d463a6fa24"
+          }
+        },
+        {
+          "client_id": "889969167081-pko1tm5vfjg9cgja8fs5dg15gp7jl4cu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAD7BQvoIIb1bcjboIfsTWBSPAeZ5omuxA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "889969167081-pko1tm5vfjg9cgja8fs5dg15gp7jl4cu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
