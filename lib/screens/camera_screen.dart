@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dopplerv1/consts/collections.dart';
+import 'package:dopplerv1/consts/universal_variables.dart';
 import 'package:dopplerv1/models/users.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -31,9 +32,10 @@ class _UploadState extends State<Upload>
 
   String? resultText = '';
   // Position position;
-var date='${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}';
+  var date =
+      '${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}';
 
-var time='${DateTime.now().hour}${DateTime.now().minute}';
+  var time = '${DateTime.now().hour}:${DateTime.now().minute}';
   selectImage(parentContext) {
     return showDialog(
       context: parentContext,
@@ -77,6 +79,10 @@ var time='${DateTime.now().hour}${DateTime.now().minute}';
                   ),
                   onPressed: () => selectImage(context)),
             ),
+          ),
+          TextField(
+            controller: ipAddressController,
+            decoration: const InputDecoration(hintText: "Add Ip Address"),
           ),
         ],
       ),
@@ -208,7 +214,8 @@ var time='${DateTime.now().hour}${DateTime.now().minute}';
   Scaffold buildUploadForm() {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white70,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
         leading: IconButton(
             icon: const Icon(Icons.arrow_back, color: Colors.black),
             onPressed: clearImage),
@@ -233,6 +240,16 @@ var time='${DateTime.now().hour}${DateTime.now().minute}';
       body: ListView(
         children: <Widget>[
           isUploading ? const LinearProgressIndicator() : const Text(""),
+          Center(
+            child: CircleAvatar(
+              radius: 40,
+              backgroundImage: AssetImage(logo),
+            ),
+          ),
+          Text(
+            'Uploaded X-ray:',
+            style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+          ),
           SizedBox(
             height: 220.0,
             width: MediaQuery.of(context).size.width * 0.8,
@@ -253,7 +270,25 @@ var time='${DateTime.now().hour}${DateTime.now().minute}';
           const Padding(
             padding: EdgeInsets.only(top: 10.0),
           ),
-          Text(DateTime.now().toLocal().),
+          Text(
+            date,
+            textAlign: TextAlign.center,
+          ),
+          Text(
+            time,
+            textAlign: TextAlign.center,
+          ),
+          const Padding(
+            padding: EdgeInsets.only(top: 10.0),
+          ),
+          const Text(
+            'We analyzed your X-Ray test using our trained CNN moel type VGG-16 ',
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 22),
+          ),
+          const Padding(
+            padding: EdgeInsets.only(top: 10.0),
+          ),
           Text(
             resultText!,
             style: TextStyle(fontSize: 28),
