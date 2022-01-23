@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dopplerv1/consts/collections.dart';
@@ -7,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
+import 'package:http/http.dart' as http;
 
 class Upload extends StatefulWidget {
   final AppUserModel? currentUser;
@@ -22,7 +24,7 @@ class _UploadState extends State<Upload>
   TextEditingController captionController = TextEditingController();
   TextEditingController titleController = TextEditingController();
 
-  TextEditingController locationController = TextEditingController();
+  TextEditingController ipAddressController = TextEditingController();
   File? file;
   bool isUploading = false;
   String postId = const Uuid().v4();
@@ -113,6 +115,39 @@ class _UploadState extends State<Upload>
     setState(() {
       this.file = file;
     });
+    final zxc = await file.readAsBytes();
+    String base64Img = base64Encode(zxc);
+    fetchResponse(
+      base64Image: base64Img,
+    );
+  }
+
+  void fetchResponse({
+    var base64Image,
+    String ipAddress = "10.10.16.54",
+  }) async {
+    var data = {
+      'image': base64Image,
+    };
+    var url = 'http://$ipAddress:5000/predict';
+    Map<String, String> headers = {
+      'Content-type': 'application/json',
+      'Accept': 'application/json',
+      'Connection': 'Keep-Alive'
+    };
+
+    var body = json.encode(data);
+    try {
+      var response =
+          await http.post(Uri.parse(url), body: body, headers: headers);
+      final Map<String, dynamic> responseData = json.decode(response.body);
+
+      print(responseData);
+    } catch (e) {
+      print(e);
+      print("Error Has Occured");
+      return null;
+    }
   }
 
   Future<String> uploadImage(imageFile) async {
@@ -151,11 +186,11 @@ class _UploadState extends State<Upload>
         : "";
     createPostInFirestore(
       mediaUrl: postMediaUrl,
-      location: locationController.text,
+      location: ipAddressController.text,
       description: captionController.text,
     );
     captionController.clear();
-    locationController.clear();
+    ipAddressController.clear();
     setState(() {
       file = null;
       isUploading = false;
@@ -170,23 +205,23 @@ class _UploadState extends State<Upload>
         leading: IconButton(
             icon: const Icon(Icons.arrow_back, color: Colors.black),
             onPressed: clearImage),
-        actions: [
-          FlatButton(
-            onPressed: isUploading
-                ? null
-                : () {
-                    handleSubmit();
-                  },
-            child: const Text(
-              "Upload To Detect",
-              style: TextStyle(
-                color: Colors.blueAccent,
-                fontWeight: FontWeight.bold,
-                fontSize: 20.0,
-              ),
-            ),
-          ),
-        ],
+        // actions: [
+        //   FlatButton(
+        //     onPressed: isUploading
+        //         ? null
+        //         : () {
+        //             // handleSubmit();
+        //           },
+        //     child: const Text(
+        //       "Upload To Detect",
+        //       style: TextStyle(
+        //         color: Colors.blueAccent,
+        //         fontWeight: FontWeight.bold,
+        //         fontSize: 20.0,
+        //       ),
+        //     ),
+        //   ),
+        // ],
       ),
       body: ListView(
         children: <Widget>[
