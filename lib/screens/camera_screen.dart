@@ -128,7 +128,7 @@ class _UploadState extends State<Upload>
     final zxc = await file.readAsBytes();
     String base64Img = base64Encode(zxc);
     fetchResponse(
-      base64Image: base64Img,
+      base64Image: base64Img,ipAddress:ipAddressController.text
     );
   }
 
